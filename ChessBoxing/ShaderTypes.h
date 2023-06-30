@@ -21,6 +21,11 @@ typedef NSInteger EnumBackingType;
 
 #include <simd/simd.h>
 
+struct Vertex {
+    vector_float4 color;
+    vector_float2 pos;
+};
+
 typedef NS_ENUM(EnumBackingType, BufferIndex)
 {
     BufferIndexMeshPositions = 0,
@@ -31,7 +36,6 @@ typedef NS_ENUM(EnumBackingType, BufferIndex)
 typedef NS_ENUM(EnumBackingType, VertexAttribute)
 {
     VertexAttributePosition  = 0,
-    VertexAttributeTexcoord  = 1,
 };
 
 typedef NS_ENUM(EnumBackingType, TextureIndex)

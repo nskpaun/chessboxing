@@ -15,39 +15,25 @@
 
 using namespace metal;
 
-typedef struct
-{
-    float3 position [[attribute(VertexAttributePosition)]];
-    float2 texCoord [[attribute(VertexAttributeTexcoord)]];
-} Vertex;
+struct VertexOut {
+    float4 color;
+    float4 pos [[position]];
+};
 
-typedef struct
+vertex VertexOut vertexShader(const device Vertex *vertexArray [[buffer(0)]], unsigned int vid [[vertex_id]])
 {
-    float4 position [[position]];
-    float2 texCoord;
-} ColorInOut;
+    Vertex in = vertexArray[vid];
+    VertexOut out;
+    
+    out.color = in.color;
 
-vertex ColorInOut vertexShader(Vertex in [[stage_in]],
-                               constant Uniforms & uniforms [[ buffer(BufferIndexUniforms) ]])
-{
-    ColorInOut out;
-
-    float4 position = float4(in.position, 1.0);
-    out.position = uniforms.projectionMatrix * uniforms.modelViewMatrix * position;
-    out.texCoord = in.texCoord;
+    float4 position = float4(in.pos.x, in.pos.y, 0, 1.0);
+    out.pos = position;
 
     return out;
 }
 
-fragment float4 fragmentShader(ColorInOut in [[stage_in]],
-                               constant Uniforms & uniforms [[ buffer(BufferIndexUniforms) ]],
-                               texture2d<half> colorMap     [[ texture(TextureIndexColor) ]])
+fragment float4 fragmentShader(VertexOut interpolated [[stage_in]])
 {
-    constexpr sampler colorSampler(mip_filter::linear,
-                                   mag_filter::linear,
-                                   min_filter::linear);
-
-    half4 colorSample   = colorMap.sample(colorSampler, in.texCoord.xy);
-
-    return float4(colorSample);
+    return interpolated.color;
 }

@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		92A5740A2A41517700179878 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A574092A41517700179878 /* AppDelegate.swift */; };
 		92A5740C2A41517700179878 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A5740B2A41517700179878 /* GameViewController.swift */; };
-		92A5740E2A41517700179878 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A5740D2A41517700179878 /* Renderer.swift */; };
 		92A574102A41517700179878 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = 92A5740F2A41517700179878 /* Shaders.metal */; };
 		92A574132A41517900179878 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92A574122A41517900179878 /* Assets.xcassets */; };
 		92A574162A41517900179878 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 92A574142A41517900179878 /* Main.storyboard */; };
 		92A574212A41517900179878 /* ChessBoxingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A574202A41517900179878 /* ChessBoxingTests.swift */; };
 		92A5742B2A41517900179878 /* ChessBoxingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A5742A2A41517900179878 /* ChessBoxingUITests.swift */; };
 		92A5742D2A41517900179878 /* ChessBoxingUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A5742C2A41517900179878 /* ChessBoxingUITestsLaunchTests.swift */; };
+		92A5743A2A4D35C600179878 /* CBZRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A574392A4D35C600179878 /* CBZRenderer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +39,6 @@
 		92A574062A41517700179878 /* ChessBoxing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChessBoxing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		92A574092A41517700179878 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		92A5740B2A41517700179878 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
-		92A5740D2A41517700179878 /* Renderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Renderer.swift; sourceTree = "<group>"; };
 		92A5740F2A41517700179878 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 		92A574112A41517700179878 /* ShaderTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderTypes.h; sourceTree = "<group>"; };
 		92A574122A41517900179878 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -50,6 +49,7 @@
 		92A574262A41517900179878 /* ChessBoxingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChessBoxingUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		92A5742A2A41517900179878 /* ChessBoxingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessBoxingUITests.swift; sourceTree = "<group>"; };
 		92A5742C2A41517900179878 /* ChessBoxingUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessBoxingUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		92A574392A4D35C600179878 /* CBZRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBZRenderer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,12 +102,12 @@
 			children = (
 				92A574092A41517700179878 /* AppDelegate.swift */,
 				92A5740B2A41517700179878 /* GameViewController.swift */,
-				92A5740D2A41517700179878 /* Renderer.swift */,
 				92A5740F2A41517700179878 /* Shaders.metal */,
 				92A574112A41517700179878 /* ShaderTypes.h */,
 				92A574122A41517900179878 /* Assets.xcassets */,
 				92A574142A41517900179878 /* Main.storyboard */,
 				92A574172A41517900179878 /* ChessBoxing.entitlements */,
+				92A574392A4D35C600179878 /* CBZRenderer.swift */,
 			);
 			path = ChessBoxing;
 			sourceTree = "<group>";
@@ -261,7 +261,7 @@
 			files = (
 				92A574102A41517700179878 /* Shaders.metal in Sources */,
 				92A5740C2A41517700179878 /* GameViewController.swift in Sources */,
-				92A5740E2A41517700179878 /* Renderer.swift in Sources */,
+				92A5743A2A4D35C600179878 /* CBZRenderer.swift in Sources */,
 				92A5740A2A41517700179878 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
