@@ -56,7 +56,7 @@ class CBZRenderer: NSObject, MTKViewDelegate {
             return
         }
         
-        guard let commandBuffer = commandQueue.makeCommandBuffer() else {
+        guard let commandBuffer = self.commandQueue.makeCommandBuffer() else {
             NSLog("Error on getting command buffer")
             return
         }
