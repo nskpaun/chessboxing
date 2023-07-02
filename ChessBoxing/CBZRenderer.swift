@@ -14,6 +14,7 @@ class CBZRenderer: NSObject, MTKViewDelegate {
     let sceneModel: CBZSceneModel
     var renderPipelineState: MTLRenderPipelineState?
     var viewportSize: simd_float2
+    let gpuLock = DispatchSemaphore(value: 1)
     
     
     init?(metalKitView: MTKView) {
@@ -40,6 +41,7 @@ class CBZRenderer: NSObject, MTKViewDelegate {
     }
     
     func draw(in view: MTKView) {
+        gpuLock.wait()
         
         self.sceneModel.update(systemtime: CACurrentMediaTime())
         
@@ -66,6 +68,9 @@ class CBZRenderer: NSObject, MTKViewDelegate {
         
         commandEncoder.endEncoding()
         commandBuffer.present(drawable)
+        commandBuffer.addCompletedHandler { _ in
+            self.gpuLock.signal()
+        }
         commandBuffer.commit()
     }
     
