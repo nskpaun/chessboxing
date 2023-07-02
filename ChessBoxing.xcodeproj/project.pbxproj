@@ -16,6 +16,7 @@
 		92A5742B2A41517900179878 /* ChessBoxingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A5742A2A41517900179878 /* ChessBoxingUITests.swift */; };
 		92A5742D2A41517900179878 /* ChessBoxingUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A5742C2A41517900179878 /* ChessBoxingUITestsLaunchTests.swift */; };
 		92A5743A2A4D35C600179878 /* CBZRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A574392A4D35C600179878 /* CBZRenderer.swift */; };
+		92A5743E2A51043E00179878 /* CBZSceneModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A5743D2A51043E00179878 /* CBZSceneModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		92A5742A2A41517900179878 /* ChessBoxingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessBoxingUITests.swift; sourceTree = "<group>"; };
 		92A5742C2A41517900179878 /* ChessBoxingUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessBoxingUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		92A574392A4D35C600179878 /* CBZRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBZRenderer.swift; sourceTree = "<group>"; };
+		92A5743D2A51043E00179878 /* CBZSceneModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBZSceneModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 				92A574142A41517900179878 /* Main.storyboard */,
 				92A574172A41517900179878 /* ChessBoxing.entitlements */,
 				92A574392A4D35C600179878 /* CBZRenderer.swift */,
+				92A5743D2A51043E00179878 /* CBZSceneModel.swift */,
 			);
 			path = ChessBoxing;
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 				92A5740C2A41517700179878 /* GameViewController.swift in Sources */,
 				92A5743A2A4D35C600179878 /* CBZRenderer.swift in Sources */,
 				92A5740A2A41517700179878 /* AppDelegate.swift in Sources */,
+				92A5743E2A51043E00179878 /* CBZSceneModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

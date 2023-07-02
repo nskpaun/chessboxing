@@ -9,21 +9,33 @@ import XCTest
 @testable import ChessBoxing
 
 final class ChessBoxingTests: XCTestCase {
+    
+    var sceneModel: CBZSceneModel?
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        let device: MTLDevice = MTLCreateSystemDefaultDevice()!
+        self.sceneModel = CBZSceneModel(device: device)
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        self.sceneModel = nil
     }
 
     func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+        let ptr = self.sceneModel?.fragmentUniformsBuffer.contents().bindMemory(to: FragmentUniforms.self, capacity: 1)
+        
+        XCTAssertTrue(ptr!.pointee.brightness == 1.0, "brigtness failed to initialize")
+        
+        // Initial frame pump to initialize the last frame time
+        self.sceneModel?.update(systemtime: 1)
+        
+        // Second frame pump to update current time to a new current time
+        self.sceneModel?.update(systemtime: 2)
+        
+        // Third frame pump with new current time
+        self.sceneModel?.update(systemtime: 3)
+        
+        XCTAssertTrue(ptr!.pointee.brightness < 0.99, "brigtness failed to update: \(ptr!.pointee.brightness)")
     }
 
     func testPerformanceExample() throws {

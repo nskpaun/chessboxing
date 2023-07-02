@@ -26,6 +26,10 @@ struct Vertex {
     vector_float2 pos;
 };
 
+struct FragmentUniforms {
+    float brightness;
+};
+
 typedef NS_ENUM(EnumBackingType, BufferIndex)
 {
     BufferIndexMeshPositions = 0,

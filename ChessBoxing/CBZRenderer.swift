@@ -11,25 +11,16 @@ import MetalKit
 class CBZRenderer: NSObject, MTKViewDelegate {
     let device: MTLDevice
     let commandQueue: MTLCommandQueue
+    let sceneModel: CBZSceneModel
     var renderPipelineState: MTLRenderPipelineState?
-    let vertexBuffer: MTLBuffer
     var viewportSize: simd_float2
-    var triangleColor: simd_float3
+    
     
     init?(metalKitView: MTKView) {
         self.device = metalKitView.device!
+        self.sceneModel = CBZSceneModel(device: self.device)
         self.commandQueue = self.device.makeCommandQueue()!
         self.viewportSize = simd_float2(x: Float(metalKitView.drawableSize.width), y: Float(metalKitView.drawableSize.height))
-        self.triangleColor = simd_float3(0.0, 1.0, 0.0)
-        
-        let vertexData = [
-            Vertex(color: [1,0,0,1], pos: [-1, -1]),
-            Vertex(color: [0,1,0,1], pos: [0, 1]),
-            Vertex(color: [0,0,1,1], pos: [1, -1]),
-        ]
-        
-        let dataSize = vertexData.count * MemoryLayout<Vertex>.stride
-        self.vertexBuffer = self.device.makeBuffer(bytes: vertexData, length: dataSize, options: [])!
         
         super.init()
         
@@ -50,6 +41,8 @@ class CBZRenderer: NSObject, MTKViewDelegate {
     
     func draw(in view: MTKView) {
         
+        self.sceneModel.update(systemtime: CACurrentMediaTime())
+        
         guard let drawable = view.currentDrawable,
               let descriptor = view.currentRenderPassDescriptor else {
             NSLog("Error on getting descriptor")
@@ -66,8 +59,10 @@ class CBZRenderer: NSObject, MTKViewDelegate {
         }
         
         commandEncoder.setRenderPipelineState(self.renderPipelineState!)
-        commandEncoder.setVertexBuffer(self.vertexBuffer, offset: 0, index: 0)
+        commandEncoder.setVertexBuffer(self.sceneModel.vertexBuffer, offset: 0, index: 0)
+        commandEncoder.setFragmentBuffer(self.sceneModel.fragmentUniformsBuffer, offset: 0, index: 0)
         commandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 3)
+        
         
         commandEncoder.endEncoding()
         commandBuffer.present(drawable)
