@@ -62,6 +62,7 @@ class CBZRenderer: NSObject, MTKViewDelegate {
         
         commandEncoder.setRenderPipelineState(self.renderPipelineState!)
         commandEncoder.setVertexBuffer(self.sceneModel.vertexBuffer, offset: 0, index: 0)
+        commandEncoder.setVertexBuffer(self.sceneModel.vertexUniformsBuffer, offset: 0, index: 1)
         commandEncoder.setFragmentBuffer(self.sceneModel.fragmentUniformsBuffer, offset: 0, index: 0)
         commandEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 3)
         

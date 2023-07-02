@@ -20,14 +20,16 @@ struct VertexOut {
     float4 pos [[position]];
 };
 
-vertex VertexOut vertexShader(const device Vertex *vertexArray [[buffer(0)]], unsigned int vid [[vertex_id]])
+vertex VertexOut vertexShader(const device Vertex *vertexArray [[buffer(0)]], unsigned int vid [[vertex_id]], constant VertexUniforms &uniforms [[buffer(1)]])
 {
     Vertex in = vertexArray[vid];
     VertexOut out;
     
     out.color = in.color;
+    
+    float2 new_pos = uniforms.rotation_matrix * in.pos;
 
-    float4 position = float4(in.pos.x, in.pos.y, 0, 1.0);
+    float4 position = float4(new_pos.x, new_pos.y, 0, 1.0);
     out.pos = position;
 
     return out;

@@ -30,6 +30,10 @@ struct FragmentUniforms {
     float brightness;
 };
 
+struct VertexUniforms {
+    simd_float2x2 rotation_matrix;
+};
+
 typedef NS_ENUM(EnumBackingType, BufferIndex)
 {
     BufferIndexMeshPositions = 0,
