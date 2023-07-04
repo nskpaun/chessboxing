@@ -24,7 +24,7 @@ final class ChessBoxingTests: XCTestCase {
     func testExample() throws {
         let ptr = self.sceneModel?.fragmentUniformsBuffer.contents().bindMemory(to: FragmentUniforms.self, capacity: 1)
         
-        XCTAssertTrue(ptr!.pointee.brightness == 1.0, "brigtness failed to initialize")
+        XCTAssertTrue(ptr!.pointee.brightness == 1.0, "brigtness failed to initialize: \(ptr!.pointee.brightness)")
         
         // Initial frame pump to initialize the last frame time
         self.sceneModel?.update(systemtime: 1)

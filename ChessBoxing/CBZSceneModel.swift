@@ -14,6 +14,8 @@ class CBZSceneModel {
     let vertexBuffer: MTLBuffer
     let vertexUniformsBuffer: MTLBuffer
     let fragmentUniformsBuffer: MTLBuffer
+    let indexBuffer: MTLBuffer
+    let indexData: [UInt32]
     
     var lastRenderTime: CFTimeInterval? = nil
     var currentTime: Double = 0
@@ -25,15 +27,19 @@ class CBZSceneModel {
             Vertex(color: [1,0,0,1], pos: [-0.5, -0.5]),
             Vertex(color: [0,1,0,1], pos: [0, 0.5]),
             Vertex(color: [0,0,1,1], pos: [0.5, -0.5]),
+            Vertex(color: [0,1,0,1], pos: [1, 1]),
         ]
         
         let dataSize = vertexData.count * MemoryLayout<Vertex>.stride
         self.vertexBuffer = self.device.makeBuffer(bytes: vertexData, length: dataSize, options: [])!
         
+        self.indexData = [0,1,2,1,2,3]
+        self.indexBuffer = self.device.makeBuffer(bytes: self.indexData, length: MemoryLayout<UInt32>.stride * indexData.count)!
+        
         var initVertexUniforms = VertexUniforms(rotation_matrix: CBZSceneModel.rotationMatrix(angle: 1.0))
         self.vertexUniformsBuffer = self.device.makeBuffer(bytes: &initVertexUniforms, length: MemoryLayout<VertexUniforms>.stride)!
         
-        var fragmentUniforms = FragmentUniforms(brightness: 0.0)
+        var fragmentUniforms = FragmentUniforms(brightness: 1.0)
         self.fragmentUniformsBuffer = self.device.makeBuffer(bytes: &fragmentUniforms, length: MemoryLayout<FragmentUniforms>.stride)!
         
     }
