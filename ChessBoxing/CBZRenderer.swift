@@ -19,10 +19,11 @@ class CBZRenderer: NSObject, MTKViewDelegate {
     
     init?(metalKitView: MTKView) {
         self.device = metalKitView.device!
-        self.sceneModel = CBZSceneModel(device: self.device)
+        
         self.commandQueue = self.device.makeCommandQueue()!
         self.viewportSize = simd_float2(x: Float(metalKitView.drawableSize.width), y: Float(metalKitView.drawableSize.height))
-        
+        let viewport = CBZViewport(width: viewportSize.x, height: viewportSize.y, distanceFromCamera: 1.0)
+        self.sceneModel = CBZSceneModel(device: self.device, viewPort: viewport)
         super.init()
         
         let library = self.device.makeDefaultLibrary()
@@ -64,7 +65,7 @@ class CBZRenderer: NSObject, MTKViewDelegate {
         commandEncoder.setVertexBuffer(self.sceneModel.vertexBuffer, offset: 0, index: 0)
         commandEncoder.setVertexBuffer(self.sceneModel.vertexUniformsBuffer, offset: 0, index: 1)
         commandEncoder.setFragmentBuffer(self.sceneModel.fragmentUniformsBuffer, offset: 0, index: 0)
-        commandEncoder.drawIndexedPrimitives(type: .triangle, indexCount: self.sceneModel.indexData.count, indexType: MTLIndexType.uint32, indexBuffer: self.sceneModel.indexBuffer, indexBufferOffset: 0)
+        commandEncoder.drawIndexedPrimitives(type: .triangle, indexCount: self.sceneModel.getIndexDataCount(), indexType: MTLIndexType.uint32, indexBuffer: self.sceneModel.indexBuffer, indexBufferOffset: 0)
         
         
         commandEncoder.endEncoding()

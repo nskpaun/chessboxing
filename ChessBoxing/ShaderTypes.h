@@ -22,8 +22,8 @@ typedef NSInteger EnumBackingType;
 #include <simd/simd.h>
 
 struct Vertex {
-    vector_float4 color;
-    vector_float2 pos;
+    simd_float4 color;
+    simd_float4 pos;
 };
 
 struct FragmentUniforms {
@@ -32,6 +32,10 @@ struct FragmentUniforms {
 
 struct VertexUniforms {
     simd_float2x2 rotation_matrix;
+    float projection_plane_z;
+    float canvas_height;
+    float canvas_width;
+    float viewport_size;
 };
 
 typedef NS_ENUM(EnumBackingType, BufferIndex)

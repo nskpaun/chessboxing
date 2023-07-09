@@ -15,33 +15,42 @@ class CBZSceneModel {
     let vertexUniformsBuffer: MTLBuffer
     let fragmentUniformsBuffer: MTLBuffer
     let indexBuffer: MTLBuffer
-    let indexData: [UInt32]
+    let camera: CBZCamera
+    let viewPort: CBZViewport
+    let tetrahedron: CBZTetrahedron
     
     var lastRenderTime: CFTimeInterval? = nil
     var currentTime: Double = 0
     
-    init(device: MTLDevice) {
+    init(device: MTLDevice, viewPort: CBZViewport) {
         self.device = device
+        self.viewPort = viewPort
+        self.camera = CBZCamera()
         
-        let vertexData = [
-            Vertex(color: [1,0,0,1], pos: [-0.5, -0.5]),
-            Vertex(color: [0,1,0,1], pos: [0, 0.5]),
-            Vertex(color: [0,0,1,1], pos: [0.5, -0.5]),
-            Vertex(color: [0,1,0,1], pos: [1, 1]),
-        ]
+        self.tetrahedron = CBZTetrahedron(center: [0,0,0], angle: 2*Float.pi, axis: [0,0,1])
         
-        let dataSize = vertexData.count * MemoryLayout<Vertex>.stride
-        self.vertexBuffer = self.device.makeBuffer(bytes: vertexData, length: dataSize, options: [])!
+        let dataSize = self.tetrahedron.vertexData.count * MemoryLayout<Vertex>.stride
+        self.vertexBuffer = self.device.makeBuffer(bytes: self.tetrahedron.vertexData, length: dataSize, options: [])!
         
-        self.indexData = [0,1,2,1,2,3]
-        self.indexBuffer = self.device.makeBuffer(bytes: self.indexData, length: MemoryLayout<UInt32>.stride * indexData.count)!
         
-        var initVertexUniforms = VertexUniforms(rotation_matrix: CBZSceneModel.rotationMatrix(angle: 1.0))
+        self.indexBuffer = self.device.makeBuffer(bytes: self.tetrahedron.indexData, length: MemoryLayout<UInt32>.stride * self.tetrahedron.indexData.count)!
+        
+        var initVertexUniforms = VertexUniforms(
+            rotation_matrix: CBZSceneModel.rotationMatrix(angle: 1.0),
+            projection_plane_z: self.viewPort.distanceFromCamera,
+            canvas_height: self.viewPort.height,
+            canvas_width: self.viewPort.width,
+            viewport_size: 1
+        )
         self.vertexUniformsBuffer = self.device.makeBuffer(bytes: &initVertexUniforms, length: MemoryLayout<VertexUniforms>.stride)!
         
         var fragmentUniforms = FragmentUniforms(brightness: 1.0)
         self.fragmentUniformsBuffer = self.device.makeBuffer(bytes: &fragmentUniforms, length: MemoryLayout<FragmentUniforms>.stride)!
         
+    }
+    
+    func getIndexDataCount() -> Int {
+        return self.tetrahedron.indexData.count
     }
     
     func update(systemtime: CFTimeInterval) {
