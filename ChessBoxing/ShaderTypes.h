@@ -31,7 +31,6 @@ struct FragmentUniforms {
 };
 
 struct VertexUniforms {
-    simd_float2x2 rotation_matrix;
     float projection_plane_z;
     float canvas_height;
     float canvas_width;

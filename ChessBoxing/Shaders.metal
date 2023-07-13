@@ -42,8 +42,8 @@ vertex VertexOut vertexShader(const device Vertex *vertexArray [[buffer(0)]], un
     out.color = in.color;
     
     
-    float viewport_x = in.pos.x * uniforms.projection_plane_z / in.pos.z;
-    float viewport_y = in.pos.y * uniforms.projection_plane_z / in.pos.z;
+    float viewport_x = in.pos.x * uniforms.projection_plane_z ;/// in.pos.z;
+    float viewport_y = in.pos.y * uniforms.projection_plane_z ;/// in.pos.z;
     
     float project_x = viewport_x / uniforms.viewport_size;
     

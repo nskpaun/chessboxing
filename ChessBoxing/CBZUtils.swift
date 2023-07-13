@@ -58,28 +58,29 @@ func getRotationMatrix(axis: simd_float3, angle: Float) -> simd_float4x4 {
 }
 
 func getScaleMatrix(scaleFactor: Float) -> simd_float4x4 {
-    return simd_float4x4(columns: (
+    return simd_float4x4(rows: [
         simd_float4(scaleFactor, 0, 0, 0),
         simd_float4(0, scaleFactor, 0, 0),
         simd_float4(0, 0, scaleFactor, 0),
         simd_float4(0, 0, 0, 1)
-    ))
+    ])
 }
 
 func getTranslationMatrix(translation: simd_float4) -> simd_float4x4 {
     assert(translation[3] == 0)
-    return simd_float4x4(columns: (
-        simd_float4(1, 0, 0, translation[0]),
-        simd_float4(0, 1, 0, translation[1]),
-        simd_float4(0, 0, 1, translation[2]),
+    print(translation.x)
+    return simd_float4x4(rows: [
+        simd_float4(1, 0, 0, translation.x),
+        simd_float4(0, 1, 0, translation.y),
+        simd_float4(0, 0, 1, translation.z),
         simd_float4(0, 0, 0, 1)
-    ))
+    ])
 }
 
-func getProjectionMatrix(projectionPlaneDepth: Float, vh: Float, ch: Float, vw: Float, cw:Float) -> simd_float3x4 {
-    return simd_float3x4(columns: (
+func getProjectionMatrix(projectionPlaneDepth: Float, vh: Float, ch: Float, vw: Float, cw:Float) -> simd_float4x3 {
+    return simd_float4x3(rows: [
         simd_float4(projectionPlaneDepth*cw/vw, 0, 0, 0),
         simd_float4(0, projectionPlaneDepth*ch/vh, 0, 0),
         simd_float4(0, 0, 1, 0)
-    ))
+    ])
 }

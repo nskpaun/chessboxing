@@ -11,17 +11,19 @@ class CBZTetrahedron {
     let vertexData: [Vertex]
     let indexData: [UInt32]
     
-    init(center: simd_float3, angle: Float = 0, axis: simd_float3 = [0,0,1]) {
-        var vertexPose = [
-            Vertex(color: [1,0,0,1], pos: [center.x + -0.5, center.y + -0.5, center.z + 4, 1.0]),
-            Vertex(color: [0,1,0,1], pos: [center.x +  0.0, center.y +  0.5, center.z + 4, 1.0]),
-            Vertex(color: [0,0,1,1], pos: [center.x +  0.5, center.y + -0.5, center.z + 4, 1.0]),
-            Vertex(color: [1,1,1,1], pos: [center.x +  0.0, center.y +  0.0, center.z + 3, 1.0]),
-        ]
+    init(center: simd_float4, scale: Float = 1, angle: Float = 0, axis: simd_float3 = [0,0,1]) {
         
-        for i in 0..<vertexPose.count {
-            vertexPose[i].pos = rotateVector(vector: vertexPose[i].pos, angle: angle, axis: axis)
-        }
+        let rotationMatrix = getRotationMatrix(axis: axis, angle: angle)
+        let scaleMatrix = getScaleMatrix(scaleFactor: scale)
+        let translationMatrix = getTranslationMatrix(translation: center)
+        let transformMatrix = rotationMatrix * scaleMatrix * translationMatrix
+        
+        let vertexPose = [
+            Vertex(color: [1,0,0,1], pos: transformMatrix * simd_float4(-0.5, -0.5, 4, 1.0)),
+            Vertex(color: [0,1,0,1], pos: transformMatrix * [0.0, 0.5, 4, 1.0]),
+            Vertex(color: [0,0,1,1], pos: transformMatrix * [0.5, -0.5, 4, 1.0]),
+            Vertex(color: [1,1,1,1], pos: transformMatrix * [0.0, 0.0, 3, 1.0]),
+        ]
         
         self.vertexData = vertexPose
         

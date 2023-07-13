@@ -80,41 +80,41 @@ final class ChessBoxingTests: XCTestCase {
     }
     
     func testTranslationMatrix() {
-        let identity = simd_float4x4(columns: (
+        let identity = simd_float4x4(rows: [
             simd_float4(1, 0, 0, 0),
             simd_float4(0, 1, 0, 0),
             simd_float4(0, 0, 1, 0),
             simd_float4(0, 0, 0, 1)
-        ))
+        ])
         let ir = getTranslationMatrix(translation: simd_float4(0,0,0,0))
         XCTAssert(areMatricesEqual(ir, identity))
         
-        let t1 = simd_float4x4(columns: (
+        let t1 = simd_float4x4(rows: [
             simd_float4(1, 0, 0, 1),
             simd_float4(0, 1, 0, 2),
             simd_float4(0, 0, 1, 3),
             simd_float4(0, 0, 0, 1)
-        ))
+        ])
         let r1 = getTranslationMatrix(translation: simd_float4(1,2,3,0))
         XCTAssert(areMatricesEqual(t1, r1))
     }
     
     func testProjectionMatrix() {
-        let identity = simd_float3x4(columns: (
+        let identity = simd_float4x3(rows: [
             simd_float4(1, 0, 0, 0),
             simd_float4(0, 1, 0, 0),
             simd_float4(0, 0, 1, 0)
-        ))
+        ])
         let ir = getProjectionMatrix(projectionPlaneDepth: 1, vh: 1, ch: 1, vw: 1, cw: 1)
-        XCTAssert(are3x4MatricesEqual(ir, identity))
+        XCTAssert(are4x3MatricesEqual(ir, identity))
         
-        let t1 = simd_float3x4(columns: (
+        let t1 = simd_float4x3(rows: [
             simd_float4(0.5, 0, 0, 0),
             simd_float4(0, 0.5, 0, 0),
             simd_float4(0, 0, 1, 0)
-        ))
+        ])
         let r1 = getProjectionMatrix(projectionPlaneDepth: 0.5, vh: 1, ch: 1, vw: 1, cw: 1)
-        XCTAssert(are3x4MatricesEqual(t1, r1))
+        XCTAssert(are4x3MatricesEqual(t1, r1))
     }
     
     func areMatricesEqual(_ matrix1: simd_float4x4, _ matrix2: simd_float4x4) -> Bool {
@@ -128,9 +128,9 @@ final class ChessBoxingTests: XCTestCase {
         return true
     }
     
-    func are3x4MatricesEqual(_ matrix1: simd_float3x4, _ matrix2: simd_float3x4) -> Bool {
-        for i in 0..<3 {
-            for j in 0..<4 {
+    func are4x3MatricesEqual(_ matrix1: simd_float4x3, _ matrix2: simd_float4x3) -> Bool {
+        for i in 0..<4 {
+            for j in 0..<3 {
                 if abs(matrix1[i][j] - matrix2[i][j]) > 0.001 {
                     return false
                 }
