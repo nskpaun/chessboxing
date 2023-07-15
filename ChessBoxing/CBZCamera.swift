@@ -16,7 +16,7 @@ class CBZCamera {
     init() {
         self.position = [0,0,0,0]
         self.angle = 0
-        self.axis = [1,0,0]
+        self.axis = [0,0,1]
     }
     
     private func getInverseRotationMatrix() -> simd_float4x4 {

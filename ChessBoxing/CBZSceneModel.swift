@@ -29,11 +29,12 @@ class CBZSceneModel {
         
         self.tetrahedron = CBZTetrahedron(center: [-0.5,0.5,-1,0],scale: 0.5, angle: 1, axis: [0,0,1])
         
-        let dataSize = self.tetrahedron.vertexData.count * MemoryLayout<Vertex>.stride
-        self.vertexBuffer = self.device.makeBuffer(bytes: self.tetrahedron.vertexData, length: dataSize, options: [])!
         
+        let tetrahedronVertices = self.tetrahedron.getVertexData();
+        let dataSize = tetrahedronVertices.count * MemoryLayout<Vertex>.stride
+        self.vertexBuffer = self.device.makeBuffer(bytes: tetrahedronVertices, length: dataSize, options: [])!
         
-        self.indexBuffer = self.device.makeBuffer(bytes: self.tetrahedron.indexData, length: MemoryLayout<UInt32>.stride * self.tetrahedron.indexData.count)!
+        self.indexBuffer = self.device.makeBuffer(bytes: self.tetrahedron.getIndexData(), length: MemoryLayout<UInt32>.stride * self.tetrahedron.getIndexData().count)!
         
         var initVertexUniforms = VertexUniforms(
             projection_plane_z: self.viewPort.distanceFromCamera,
@@ -58,7 +59,7 @@ class CBZSceneModel {
         
         self.lastRenderTime = systemtime
         
-        camera.angle = Float(currentTime/2)
+        camera.angle = Float(currentTime)
         
         let fptr = self.fragmentUniformsBuffer.contents().bindMemory(to: FragmentUniforms.self, capacity: 1)
         fptr.pointee.brightness = Float(0.5 * cos(currentTime) + 0.5)
