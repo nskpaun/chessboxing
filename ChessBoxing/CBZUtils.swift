@@ -68,7 +68,6 @@ func getScaleMatrix(scaleFactor: Float) -> simd_float4x4 {
 
 func getTranslationMatrix(translation: simd_float4) -> simd_float4x4 {
     assert(translation[3] == 0)
-    print(translation.x)
     return simd_float4x4(rows: [
         simd_float4(1, 0, 0, translation.x),
         simd_float4(0, 1, 0, translation.y),

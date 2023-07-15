@@ -31,7 +31,7 @@ class CBZCamera {
     
     func getCameraTransform() -> simd_float4x4 {
         let result = getInverseRotationMatrix() * getInverseTranslationMatrix()
-        print(result)
+
         return result
     }
 }
