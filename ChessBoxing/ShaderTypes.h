@@ -35,6 +35,7 @@ struct VertexUniforms {
     float canvas_height;
     float canvas_width;
     float viewport_size;
+    simd_float4x4 camera_transform;
 };
 
 typedef NS_ENUM(EnumBackingType, BufferIndex)

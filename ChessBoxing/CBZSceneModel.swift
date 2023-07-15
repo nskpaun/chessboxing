@@ -39,7 +39,8 @@ class CBZSceneModel {
             projection_plane_z: self.viewPort.distanceFromCamera,
             canvas_height: self.viewPort.height,
             canvas_width: self.viewPort.width,
-            viewport_size: 1
+            viewport_size: 1,
+            camera_transform: camera.getCameraTransform()
         )
         self.vertexUniformsBuffer = self.device.makeBuffer(bytes: &initVertexUniforms, length: MemoryLayout<VertexUniforms>.stride)!
         
@@ -57,8 +58,13 @@ class CBZSceneModel {
         
         self.lastRenderTime = systemtime
         
-        let ptr = self.fragmentUniformsBuffer.contents().bindMemory(to: FragmentUniforms.self, capacity: 1)
-        ptr.pointee.brightness = Float(0.5 * cos(currentTime) + 0.5)
+        camera.angle = Float(currentTime/2)
+        
+        let fptr = self.fragmentUniformsBuffer.contents().bindMemory(to: FragmentUniforms.self, capacity: 1)
+        fptr.pointee.brightness = Float(0.5 * cos(currentTime) + 0.5)
+        
+        let vptr = self.vertexUniformsBuffer.contents().bindMemory(to: VertexUniforms.self, capacity: 1)
+        vptr.pointee.camera_transform = camera.getCameraTransform()
         
         currentTime += timeDifference
     }
