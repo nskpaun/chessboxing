@@ -17,7 +17,7 @@ class CBZSceneModel {
     let indexBuffer: MTLBuffer
     let camera: CBZCamera
     let viewPort: CBZViewport
-    let tetrahedron: CBZTetrahedron
+    var sceneGraph: [CBZSceneNode]
     
     var lastRenderTime: CFTimeInterval? = nil
     var currentTime: Double = 0
@@ -26,15 +26,30 @@ class CBZSceneModel {
         self.device = device
         self.viewPort = viewPort
         self.camera = CBZCamera()
+        self.sceneGraph = [];
         
-        self.tetrahedron = CBZTetrahedron(center: [-0.5,0.5,-1,0],scale: 0.5, angle: 1, axis: [0,0,1])
+        self.sceneGraph.append(CBZTetrahedron(center: [-0.5,0.5,-1,0],scale: 0.5, angle: 1, axis: [0,0,1]))
+        self.sceneGraph.append(CBZTetrahedron(center: [0.5,-0.5,-1,0],scale: 0.25, angle: 0, axis: [0,0,1]))
         
+        var sceneVertices: [Vertex] = []
+        var sceneIndices: [UInt32] = []
+        var currentMaxIndex: UInt32 = 0
+        for node in self.sceneGraph {
+            sceneVertices.append(contentsOf: node.getVertexData())
+            let indexData = node.getIndexData()
+            var localMaxIndex: UInt32 = 0
+            for idx in indexData {
+                if (localMaxIndex < idx) {
+                    localMaxIndex = idx
+                }
+                sceneIndices.append(idx + currentMaxIndex)
+            }
+            currentMaxIndex += UInt32(localMaxIndex) + 1
+        }
+        let dataSize = sceneVertices.count * MemoryLayout<Vertex>.stride
+        self.vertexBuffer = self.device.makeBuffer(bytes: sceneVertices, length: dataSize, options: [])!
         
-        let tetrahedronVertices = self.tetrahedron.getVertexData();
-        let dataSize = tetrahedronVertices.count * MemoryLayout<Vertex>.stride
-        self.vertexBuffer = self.device.makeBuffer(bytes: tetrahedronVertices, length: dataSize, options: [])!
-        
-        self.indexBuffer = self.device.makeBuffer(bytes: self.tetrahedron.getIndexData(), length: MemoryLayout<UInt32>.stride * self.tetrahedron.getIndexData().count)!
+        self.indexBuffer = self.device.makeBuffer(bytes: sceneIndices, length: MemoryLayout<UInt32>.stride * sceneIndices.count)!
         
         var initVertexUniforms = VertexUniforms(
             projection_plane_z: self.viewPort.distanceFromCamera,
@@ -51,7 +66,11 @@ class CBZSceneModel {
     }
     
     func getIndexDataCount() -> Int {
-        return self.tetrahedron.indexData.count
+        var result = 0;
+        for node in self.sceneGraph {
+            result += node.getIndexData().count
+        }
+        return result
     }
     
     func update(systemtime: CFTimeInterval) {
