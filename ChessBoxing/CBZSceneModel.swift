@@ -17,12 +17,14 @@ class CBZSceneModel {
     let indexBuffer: MTLBuffer
     let camera: CBZCamera
     let viewPort: CBZViewport
+    let metalKitView: CBZMetalView
     var sceneGraph: [CBZSceneNode]
     
     var lastRenderTime: CFTimeInterval? = nil
     var currentTime: Double = 0
     
-    init(device: MTLDevice, viewPort: CBZViewport) {
+    init(device: MTLDevice, viewPort: CBZViewport, metalKitView: CBZMetalView) {
+        self.metalKitView = metalKitView
         self.device = device
         self.viewPort = viewPort
         self.camera = CBZCamera()

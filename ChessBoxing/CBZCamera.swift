@@ -34,4 +34,12 @@ class CBZCamera {
 
         return result
     }
+    
+    func updateCameraPos(xDelta: Float = 0.0, yDelta: Float = 0.0, zDelta: Float = 0.0) {
+        self.position = [
+            self.position[0] + xDelta,
+            self.position[1] + yDelta,
+            self.position[2] + zDelta,
+        ]
+    }
 }

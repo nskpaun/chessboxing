@@ -17,13 +17,13 @@ class CBZRenderer: NSObject, MTKViewDelegate {
     let gpuLock = DispatchSemaphore(value: 1)
     
     
-    init?(metalKitView: MTKView) {
+    init?(metalKitView: CBZMetalView) {
         self.device = metalKitView.device!
         
         self.commandQueue = self.device.makeCommandQueue()!
         self.viewportSize = simd_float2(x: Float(metalKitView.drawableSize.width), y: Float(metalKitView.drawableSize.height))
         let viewport = CBZViewport(width: viewportSize.x, height: viewportSize.y, distanceFromCamera: 1.0)
-        self.sceneModel = CBZSceneModel(device: self.device, viewPort: viewport)
+        self.sceneModel = CBZSceneModel(device: self.device, viewPort: viewport, metalKitView: metalKitView)
         super.init()
         
         let library = self.device.makeDefaultLibrary()

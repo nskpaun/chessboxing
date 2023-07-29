@@ -12,12 +12,12 @@ import MetalKit
 class GameViewController: NSViewController {
 
     var renderer: CBZRenderer!
-    var mtkView: MTKView!
+    var mtkView: CBZMetalView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        guard let mtkView = self.view as? MTKView else {
+        guard let mtkView = self.view as? CBZMetalView else {
             print("View attached to GameViewController is not an MTKView")
             return
         }
