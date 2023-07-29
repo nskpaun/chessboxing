@@ -6,6 +6,14 @@
 //
 
 import Foundation
+import SceneKit
+
+let IDENTITY = simd_float4x4(columns: (
+    simd_float4(1, 0, 0, 0),
+    simd_float4(0, 1, 0, 0),
+    simd_float4(0, 0, 1, 0),
+    simd_float4(0, 0, 0, 1)
+))
 
 func rotateVector(vector: simd_float4, angle: Float, axis: simd_float3) -> simd_float4 {
     let halfAngle = angle / 2.0
@@ -21,6 +29,10 @@ func rotateVector(vector: simd_float4, angle: Float, axis: simd_float3) -> simd_
 }
 
 func getRotationMatrix(axis: simd_float3, angle: Float) -> simd_float4x4 {
+    if (angle == 0.0) {
+        return IDENTITY
+    }
+    
     let normalizedAxis = normalize(axis)
 
     // Convert the angle to radians

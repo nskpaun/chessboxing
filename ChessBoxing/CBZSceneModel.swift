@@ -80,10 +80,13 @@ class CBZSceneModel {
         
         self.lastRenderTime = systemtime
         
-        camera.angle = Float(currentTime)
+        // Camera Interactions
+        self.camera.processInteractions(keys: metalKitView.keys)
+        
+//        camera.angle = Float(currentTime)
         
         let fptr = self.fragmentUniformsBuffer.contents().bindMemory(to: FragmentUniforms.self, capacity: 1)
-        fptr.pointee.brightness = Float(0.5 * cos(currentTime) + 0.5)
+//        fptr.pointee.brightness = Float(0.5 * cos(currentTime) + 0.5)
         
         let vptr = self.vertexUniformsBuffer.contents().bindMemory(to: VertexUniforms.self, capacity: 1)
         vptr.pointee.camera_transform = camera.getCameraTransform()

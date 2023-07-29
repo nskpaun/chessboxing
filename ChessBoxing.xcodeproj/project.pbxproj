@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2830B32A2A748936004F722A /* CBZMetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2830B3292A748936004F722A /* CBZMetalView.swift */; };
+		28C02C582A75AE3900AB1ADE /* CBZInteractionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C02C572A75AE3900AB1ADE /* CBZInteractionUtils.swift */; };
 		28F0A4962A634FD700CEA7F6 /* CBZNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F0A4952A634FD700CEA7F6 /* CBZNode.swift */; };
 		92A5740A2A41517700179878 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A574092A41517700179878 /* AppDelegate.swift */; };
 		92A5740C2A41517700179878 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A5740B2A41517700179878 /* GameViewController.swift */; };
@@ -44,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		2830B3292A748936004F722A /* CBZMetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBZMetalView.swift; sourceTree = "<group>"; };
+		28C02C572A75AE3900AB1ADE /* CBZInteractionUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBZInteractionUtils.swift; sourceTree = "<group>"; };
 		28F0A4952A634FD700CEA7F6 /* CBZNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBZNode.swift; sourceTree = "<group>"; };
 		92A574062A41517700179878 /* ChessBoxing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChessBoxing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		92A574092A41517700179878 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				92A574432A5A576D00179878 /* CBZTetrahedron.swift */,
 				92A574452A5A58D100179878 /* CBZUtils.swift */,
 				2830B3292A748936004F722A /* CBZMetalView.swift */,
+				28C02C572A75AE3900AB1ADE /* CBZInteractionUtils.swift */,
 			);
 			path = ChessBoxing;
 			sourceTree = "<group>";
@@ -284,6 +287,7 @@
 				92A5740C2A41517700179878 /* GameViewController.swift in Sources */,
 				2830B32A2A748936004F722A /* CBZMetalView.swift in Sources */,
 				92A5743A2A4D35C600179878 /* CBZRenderer.swift in Sources */,
+				28C02C582A75AE3900AB1ADE /* CBZInteractionUtils.swift in Sources */,
 				92A5740A2A41517700179878 /* AppDelegate.swift in Sources */,
 				92A574422A5A4D5700179878 /* CBZViewport.swift in Sources */,
 				28F0A4962A634FD700CEA7F6 /* CBZNode.swift in Sources */,

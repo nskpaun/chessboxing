@@ -18,15 +18,11 @@ class CBZMetalView: MTKView {
     
     override func keyDown(with event: NSEvent) {
         let keyCode = Int(event.keyCode)
-        print("got a key!")
-        print(keyCode)
         keys[keyCode] = true
     }
     
     override func keyUp(with event: NSEvent) {
         let keyCode = Int(event.keyCode)
-        print("got a keyup!")
-        print(keyCode)
         keys[keyCode] = false
     }
 }
