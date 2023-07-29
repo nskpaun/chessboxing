@@ -12,6 +12,8 @@ class CBZRenderer: NSObject, MTKViewDelegate {
     let device: MTLDevice
     let commandQueue: MTLCommandQueue
     let sceneModel: CBZSceneModel
+    let depthTexture: MTLTexture
+    let depthStencilState: MTLDepthStencilState
     var renderPipelineState: MTLRenderPipelineState?
     var viewportSize: simd_float2
     let gpuLock = DispatchSemaphore(value: 1)
@@ -19,21 +21,37 @@ class CBZRenderer: NSObject, MTKViewDelegate {
     
     init?(metalKitView: CBZMetalView) {
         self.device = metalKitView.device!
-        
-        self.commandQueue = self.device.makeCommandQueue()!
         self.viewportSize = simd_float2(x: Float(metalKitView.drawableSize.width), y: Float(metalKitView.drawableSize.height))
         let viewport = CBZViewport(width: viewportSize.x, height: viewportSize.y, distanceFromCamera: 1.0)
+        let depthDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .depth32Float,
+                                                                       width: Int(viewport.width),
+                                                                       height: Int(viewport.height),
+                                                                        mipmapped: false)
+        
+        depthDescriptor.usage = [.renderTarget, .shaderRead]
+        depthDescriptor.storageMode = .private
+        
+        let depthStencilDescriptor = MTLDepthStencilDescriptor()
+        depthStencilDescriptor.depthCompareFunction = .less
+        depthStencilDescriptor.isDepthWriteEnabled = true
+
+        self.depthStencilState = device.makeDepthStencilState(descriptor: depthStencilDescriptor)!
+        self.depthTexture = device.makeTexture(descriptor: depthDescriptor)!
+        self.commandQueue = self.device.makeCommandQueue()!
+        
         self.sceneModel = CBZSceneModel(device: self.device, viewPort: viewport, metalKitView: metalKitView)
         super.init()
         
         let library = self.device.makeDefaultLibrary()
         
         let pipelineDescriptor = MTLRenderPipelineDescriptor()
+        pipelineDescriptor.depthAttachmentPixelFormat = .depth32Float
         pipelineDescriptor.vertexFunction = library?.makeFunction(name: "vertexShader")
         pipelineDescriptor.fragmentFunction = library?.makeFunction(name: "fragmentShader")
         pipelineDescriptor.colorAttachments[0].pixelFormat = metalKitView.colorPixelFormat
         
         self.renderPipelineState = try! self.device.makeRenderPipelineState(descriptor: pipelineDescriptor)
+       
     }
     
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
@@ -51,7 +69,7 @@ class CBZRenderer: NSObject, MTKViewDelegate {
             NSLog("Error on getting descriptor")
             return
         }
-        
+        descriptor.depthAttachment.texture = depthTexture
         guard let commandBuffer = self.commandQueue.makeCommandBuffer() else {
             NSLog("Error on getting command buffer")
             return
@@ -61,6 +79,7 @@ class CBZRenderer: NSObject, MTKViewDelegate {
             return
         }
         
+        commandEncoder.setDepthStencilState(depthStencilState)
         commandEncoder.setRenderPipelineState(self.renderPipelineState!)
         commandEncoder.setVertexBuffer(self.sceneModel.vertexBuffer, offset: 0, index: 0)
         commandEncoder.setVertexBuffer(self.sceneModel.vertexUniformsBuffer, offset: 0, index: 1)

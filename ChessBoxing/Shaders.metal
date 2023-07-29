@@ -20,20 +20,6 @@ struct VertexOut {
     float4 pos [[position]];
 };
 
-
-/**
- var ViewportToCanvas = function(p2d) {
-   return Pt(p2d.x * canvas.width / viewport_size,
-         p2d.y * canvas.height / viewport_size);
- }
-
-
- var ProjectVertex = function(v) {
-   return ViewportToCanvas(Pt(v.x * projection_plane_z / v.z,
-                  v.y * projection_plane_z / v.z));
- }
-
- */
 vertex VertexOut vertexShader(const device Vertex *vertexArray [[buffer(0)]], unsigned int vid [[vertex_id]], constant VertexUniforms &uniforms [[buffer(1)]])
 {
     Vertex in = vertexArray[vid];
@@ -50,7 +36,7 @@ vertex VertexOut vertexShader(const device Vertex *vertexArray [[buffer(0)]], un
     
     float project_y = viewport_y / uniforms.viewport_size;
 
-    float4 position = float4(project_x, project_y, 0, 1.0);
+    float4 position = float4(project_x, project_y, camera_pos.z/10, 1.0);
     out.pos = position;
 
     return out;
